@@ -1,4 +1,5 @@
 from pathlib import Path
+from server.const import HOST_DNS
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -6,6 +7,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=9h+o7t6dv2yn=n03k*r7x7i^m@$dtkt0dbt@p4idpld#pfa5-'
 
 DEBUG = True
+
+hosts = [f"https://{HOST_DNS}"]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = hosts
+ALLOWED_HOSTS = ["*"]
+CORS_ORIGINS_WHITELIST = hosts
+CSRF_ALLOWED_ORIGINS = hosts
 
 ALLOWED_HOSTS = ["*"]
 
@@ -16,10 +25,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
+    'rest_framework',
+    'corsheaders',
     'api.apps.ApiConfig',
 	'tailwind',
     'theme',
 	'django_browser_reload',
+    'bot.apps.BotConfig',
+    'api.middleware.CheckSessionMiddleware',
+    'api.middleware.SessionDebuger',
 ]
 
 MIDDLEWARE = [

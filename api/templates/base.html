@@ -1,0 +1,38 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}bitstock{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/svg+xml" href="{% static 'icon.svg' %}">
+{% tailwind_css %}
+</head>
+<body class="bg-zinc-800">
+    {% if request.session.auth %}
+    <div class="bg-zinc-400 flex pl-10 items-center justify-between">
+        <div class="flex">
+            <form action="{% url 'api:main' %}" method="GET">
+                <button class="hover:bg-zinc-500 h-10 w-40 items-center flex justify-center duration-500">{{request.session.name}}</button>
+            </form>
+
+            <form action="{% url 'api:org_list' %}" method="GET">
+                <button class="hover:bg-zinc-500 h-10 w-40 items-center flex justify-center duration-500">Организации</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <form action="{% url 'api:logout' %}" method="GET">
+            <button class="hover:bg-zinc-500 h-10 w-20 items-center flex justify-center duration-500">Logout</button>
+        </form>
+    </div>
+
+
+    {% endif %}
+    <div class="px-10 mt-32">
+    {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
