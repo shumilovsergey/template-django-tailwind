@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'theme',
 	'django_browser_reload',
     'bot.apps.BotConfig',
-    'api.middleware.CheckSessionMiddleware',
-    'api.middleware.SessionDebuger',
 ]
 
 MIDDLEWARE = [
@@ -42,9 +40,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api.middleware.CheckSessionMiddleware',
+    'api.middleware.SessionDebuger',
 ]
 
 ROOT_URLCONF = 'server.urls'

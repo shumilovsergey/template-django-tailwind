@@ -6,9 +6,9 @@ load_dotenv()
 # t.me/sh_login_testing_bot
 TOKEN_TG = os.getenv("TOKEN_TG")
 HOST_DNS = os.getenv("HOST_DNS")
-
+BOT_NAME = os.getenv("BOT_NAME")
 #HARDCODE
-BOT_NAME = ""
+
 
 
 #BUTTONS
