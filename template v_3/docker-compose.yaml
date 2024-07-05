@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  app:
+    platform: linux/x86_64
+    image: ghcr.io/${REPO_OWNER}/${REPO_NAME}:latest
+    ports:
+      - "5008:8000"
+    restart: always
+    container_name: "${REPO_NAME}-container"
+    environment:
+      - ALLOWED_HOSTS=localhost 127.0.0.1
+      - TOKEN_TG=${TOKEN_TG}
+      - HOST_DNS=${HOST_DNS}
+      - BOT_NAME=${BOT_NAME}
+    volumes:
+      - .:/code
+      - ./sqlite:/sqlite
+      - ./api/static:/api/static
