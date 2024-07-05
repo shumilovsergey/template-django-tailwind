@@ -48,7 +48,7 @@ class SessionDebuger:
         session_id = request.session["session_id"]
         auth = request.session["auth"]
         name = request.session["name"]
-        org_select = request.session["org_select"]
+
 
         print("##_______SESSION____##")
         print(f"session_id - {session_id}")
