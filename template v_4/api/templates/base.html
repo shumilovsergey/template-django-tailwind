@@ -1,0 +1,39 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}bitstock{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/svg+xml" href="{% static 'icon.png' %}">
+{% tailwind_css %}
+</head>
+<body class="">
+    {% if request.session.auth %}
+    <div class="bg-amber-50 shadow-md flex pl-10 items-center justify-between">
+        <div class="flex">
+            <form action="{% url 'api:main' %}" method="GET">
+                <button class="hover:bg-stone-300 h-10 w-40 items-center flex justify-center duration-500 text-lg">
+                    <pre>{{request.session.name}}</pre>
+                </button>
+            </form>
+        </div>
+
+        <form action="{% url 'api:logout' %}" method="GET">
+            <button class="hover:bg-stone-300 h-10 w-40 items-center flex justify-center duration-500 text-lg">
+                <pre>logout</pre>
+            </button>
+        </form>
+    </div>
+
+    {% endif %}
+
+    <div class="px-10 mt-32">
+    {% block content %}{% endblock %}
+    </div>
+
+
+</body>
+</html>

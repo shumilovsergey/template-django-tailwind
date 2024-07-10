@@ -5,14 +5,14 @@ services:
     platform: linux/x86_64
     image: ghcr.io/${REPO_OWNER}/${REPO_NAME}:latest
     ports:
-      - "5008:8000"
+      - "${PORT:-8000}:8000"
     restart: always
     container_name: "${REPO_NAME}-container"
     environment:
       - ALLOWED_HOSTS=localhost 127.0.0.1
-      - TOKEN_TG=${TOKEN_TG}
-      - HOST_DNS=${HOST_DNS}
-      - BOT_NAME=${BOT_NAME}
+      - TOKEN_TG=${TOKEN_TG:-noenv}
+      - HOST_DNS=${HOST_DNS:-noenv}
+      - BOT_NAME=${BOT_NAME:-noenv}
     volumes:
       - .:/code
       - ./sqlite:/sqlite

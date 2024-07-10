@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+main
+{% endblock %}
+{% block content %}
+
+{% if request.session.auth != True %}
+<div class="flex justify-center items-center h-screen">
+  <div class="">
+    <form class="" action="{% url 'api:login' %}" method="GET">
+      <button class="text-lg shadow-md w-[256px] border-2 h-20 text-center rounded-3xl hover:bg-stone-300 bg-amber-50 border-stone-700 duration-500" type="submit">
+        <pre>telegram login</pre>
+      </button>
+    </form>
+
+    <div class="border-stone-700 shadow-md mt-10 pb-[20px] pl-[20px] pr-[20px] pt-[10px] border-2 rounded-3xl bg-amber-50" id="qr_box">
+      <div class="pb-2 text-center text-lg ">
+        <pre>qr code login</pre>
+      </div>
+      <div class="" id="qrcode"></div>
+    </div>
+
+    <form class="hidden pt-[10px]" id="refresh" action="{% url 'api:main' %}" method="GET">
+      <button class="text-lg shadow-md w-[256px] duration-500 border-2 border-stone-700 hover:bg-stone-300 bg-amber-50 h-20 text-center rounded-3xl" type="submit">
+        <pre>обновить qr code</pre>
+      </button>
+    </form>
+
+  </div>
+</div> 
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<script>
+  var options = {
+    text: "https://t.me/{{bot_name}}?start={{session_id}}qrcode",
+    width: 216, // QR code width
+    height: 216, // QR code height
+    colorDark: "#1C1917", // Foreground color
+    colorLight: "#FFFBEB" // Background color
+  };
+  new QRCode(document.getElementById("qrcode"), options);
+
+  function pollCheckEndpoint(startTime) {
+    if (!startTime) {
+        startTime = Date.now();
+    }
+
+    const timeLimit = 20000;
+
+    fetch('https://{{dns}}/auth_check/?session_id={{session_id}}')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.result);
+            // Check { "result": true } or { "result": false }
+            if (data.result === true) {
+                location.reload();
+            } else {
+                if (Date.now() - startTime < timeLimit) {
+                    setTimeout(() => pollCheckEndpoint(startTime), 1000);
+                } else {
+                    console.log('Polling stopped: time limit reached.');
+                    document.getElementById('qr_box').classList.add('hidden');
+                    document.getElementById('refresh').classList.remove('hidden');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+if ("{{auth}}" != true) {
+    pollCheckEndpoint();
+}
+
+</script>
+
+{% endif %}
+{% endblock %}
+
